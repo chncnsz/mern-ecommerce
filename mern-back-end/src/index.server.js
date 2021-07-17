@@ -4,6 +4,7 @@ const app = express();
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const path = require('path');
+const cors = require('cors');
 
 //routes
 const userRoutes = require('./routes/auth');
@@ -28,7 +29,7 @@ mongoose.connect(
     console.log('Database connected');
 });
 
-
+app.use(cors());
 app.use(express.json());
 app.use('/public', express.static(path.join(__dirname,'uploads')));
 app.use('/api', userRoutes);
