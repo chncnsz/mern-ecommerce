@@ -1,5 +1,5 @@
 const express = require('express');
-const { addCategory, getCategories } = require('../controllers/category');
+const { addCategory, getCategories, updateCategories } = require('../controllers/category');
 const { requireSignin, adminMiddleware } = require('../common-middleware');
 const router = express.Router();
 const shortid = require('shortid');
@@ -16,7 +16,8 @@ var storage = multer.diskStorage({
 })
 const upload = multer({ storage });
 
-router.post('/category/create', requireSignin, adminMiddleware, upload.single('categoryImage'), addCategory);
 router.get('/category/getcategory', getCategories);
+router.post('/category/create', requireSignin, adminMiddleware, upload.single('categoryImage'), addCategory);
+router.post('/category/update', upload.single('categoryImage'), updateCategories);
 
 module.exports = router;

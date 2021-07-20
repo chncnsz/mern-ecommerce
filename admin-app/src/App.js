@@ -1,4 +1,4 @@
-import React, { useEffect, useState} from 'react';
+import React, { useEffect} from 'react';
 import { Route, Switch} from 'react-router-dom';
 import './App.css';
 import PrivateRoute from './components/HOC/PrivateRoute';
@@ -7,8 +7,8 @@ import Signin from './containers/Signin';
 import Signup from './containers/Signup';
 import { useDispatch, useSelector } from 'react-redux';
 import { getInitialData, isUserLoggedIn } from './actions';
-import Products from '../src/containers/Products';
-import Orders from '../src/containers/Orders';
+import Products from './containers/Products';
+import Orders from './containers/Orders';
 import Category from './containers/Category';
 
 function App() {
@@ -21,15 +21,15 @@ function App() {
       dispatch(isUserLoggedIn());
     }
     dispatch(getInitialData());
-  }, []);
+  },[]);
 
   return (
     <div className="App">
             <Switch>
               <PrivateRoute path="/" exact component={Home}/>
-              <PrivateRoute path="/category" exact component={Category}/>
-              <PrivateRoute path="/products" exact component={Products}/>
-              <PrivateRoute path="/orders" exact component={Orders}/>
+              <PrivateRoute path="/category" component={Category}/>
+              <PrivateRoute path="/products"  component={Products}/>
+              <PrivateRoute path="/orders"  component={Orders}/>
 
               <Route path="/signin" component={Signin}/>
               <Route path="/signup" component={Signup}/>
