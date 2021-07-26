@@ -2,7 +2,7 @@
     width: 100%;
     background: #fff;
     border: 1px solid #cecece;
-    box-shadow: rgba(0, 0, 0, 0.2) 0px 1px 2px 0px !important;
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 1px 1px 0px !important;
 }
 .cardHeader{
     display: flex;
@@ -10,9 +10,3 @@
     padding: 20px 20px;
     border-bottom: 1px solid #cecece;
 }
-/* .card{
-    width: calc(100% - 20px);
-    margin: 10px 10px;
-    border: 1px solid #cecece;
-    box-shadow: 0 0 2px -2px gray;
-} */

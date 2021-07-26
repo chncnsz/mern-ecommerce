@@ -5,6 +5,7 @@ import HomePage from './containers/HomePage';
 import ProductListPage from './containers/ProductListPage';
 import ProductDetailsPage from './containers/ProductDetailsPage';
 import CartPage from './containers/CartPage';
+import CheckoutPage from "./containers/CheckoutPage";
 import { useDispatch, useSelector} from 'react-redux';
 import { isUserLoggedIn, updateCart } from './actions';
 
@@ -22,7 +23,7 @@ function App() {
 
   useEffect(() => {
     dispatch(updateCart());
-  },[]);
+  },[auth.authenticate]);
 
   return (
     <div className="App">
@@ -30,6 +31,7 @@ function App() {
         <Switch>
           <Route path="/" exact component={HomePage}/>
           <Route path="/cart" component={CartPage}/>
+          <Route path="/checkout" component={CheckoutPage} />
           <Route path="/:productSlug/:productId/p" component={ProductDetailsPage}/>
           <Route path="/:slug" component={ProductListPage}/>
         </Switch>

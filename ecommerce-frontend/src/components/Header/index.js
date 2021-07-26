@@ -11,6 +11,7 @@ import {
 } from '../MaterialUI';
 import { useDispatch, useSelector } from 'react-redux';
 import { login, signout } from '../../actions';
+import { Link } from 'react-router-dom'
 /**
 * @author
 * @function Header
@@ -178,9 +179,9 @@ const Header = (props) => {
                 <div className="rightMenu">
                     {
                         auth.authenticate ?
-                         renderLoggedInMenu() : renderNonLoggedInMenu() 
+                            renderLoggedInMenu() : renderNonLoggedInMenu()
                     }
-                    
+
                     <DropdownMenu
                         menu={
                             <a className="more">
@@ -197,10 +198,12 @@ const Header = (props) => {
                         ]}
                     />
                     <div>
-                        <a className="cart">
-                            <IoIosCart />
-                            <span style={{ margin: '0 10px' }}>Cart</span>
-                        </a>
+                        <Link to="/cart">
+                            <a className="cart">
+                                <IoIosCart />
+                                <span style={{ margin: '0 10px' }}>Cart</span>
+                            </a>
+                        </Link>
                     </div>
                 </div>
                 {/* right side menu end here */}

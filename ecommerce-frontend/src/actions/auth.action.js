@@ -64,16 +64,16 @@ export const login = (user) => {
 };
 
 export const isUserLoggedIn = () => {
-  return async (dispatch) => {
-    const token = localStorage.getItem("token");
+  return async dispatch => {
+    const token = localStorage.getItem('token');
     if (token) {
-      const user = JSON.parse(localStorage.getItem("user"));
+      const user = JSON.parse(localStorage.getItem('user'));
       dispatch({
         type: authConstants.LOGIN_SUCCESS,
         payload: {
           token,
-          user,
-        },
+          user
+        }
       });
     } else {
       dispatch({
@@ -91,7 +91,7 @@ export const signout = () => {
     // localStorage.removeItem('token');
     localStorage.clear();
     dispatch({ type: authConstants.LOGOUT_SUCCESS });
-    // dispatch({ type: cartConstants.RESET_CART });
+    dispatch({ type: cartConstants.RESET_CART });
     //const res = await axios.post(`/admin/signout`);
     // if(res.status === 200){
 
