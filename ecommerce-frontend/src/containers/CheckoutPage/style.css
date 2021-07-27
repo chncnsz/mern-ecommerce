@@ -1,5 +1,6 @@
 .checkoutContainer{
     width: calc(100% - 400px);
+    margin: 10px;
 }
 .checkoutStep{
     box-sizing: border-box;

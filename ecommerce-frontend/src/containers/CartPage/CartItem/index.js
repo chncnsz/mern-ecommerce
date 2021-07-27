@@ -18,7 +18,7 @@ const CartItem = (props) => {
   const onQuantityDecrement = () => {
     if(qty <= 1) return;
     setQty(qty - 1);
-    props.onQuantityInc(_id, qty -1);
+    props.onQuantityInc(_id, qty - 1);
   }
 
   return (
