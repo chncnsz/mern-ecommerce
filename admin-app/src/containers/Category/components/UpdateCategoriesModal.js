@@ -1,7 +1,8 @@
 import React from 'react';
 import Input from '../../../components/UI/Input';
 import Modal from '../../../components/UI/Modal';
-import { Col, Container, Row } from 'react-bootstrap';
+import {Row, Col} from 'react-bootstrap';
+
 
 const UpdateCategoriesModal = (props) => {
 
@@ -9,7 +10,7 @@ const UpdateCategoriesModal = (props) => {
         show,
         handleClose,
         modalTitle,
-        size, 
+        size,
         expandedArray,
         checkedArray,
         handleCategoryInput,
@@ -29,16 +30,17 @@ const UpdateCategoriesModal = (props) => {
         >
             <Row>
                 <Col>
-                    <h6>Genişletilen</h6>
+                    <h6>Expanded</h6>
                 </Col>
             </Row>
             {
-                expandedArray.length > 0 && expandedArray.map((item, index) =>
+                expandedArray.length > 0 &&
+                expandedArray.map((item, index) =>
                     <Row key={index}>
                         <Col>
                             <Input
                                 value={item.name}
-                                placeholder={'Category Name'}
+                                placeholder={`Category Name`}
                                 onChange={(e) => handleCategoryInput('name', e.target.value, index, 'expanded')}
                             />
                         </Col>
@@ -47,40 +49,38 @@ const UpdateCategoriesModal = (props) => {
                                 className="form-control"
                                 value={item.parentId}
                                 onChange={(e) => handleCategoryInput('parentId', e.target.value, index, 'expanded')}>
-                                <option>Kategori Seç</option>
+                                <option>select category</option>
                                 {
                                     categoryList.map(option =>
-                                        <option key={option.value} value={option.value}>{option.name}</option>)
+                                        <option key={option.value} value={option.value}>{option.name}</option>
+                                    )
                                 }
                             </select>
                         </Col>
                         <Col>
-                            <select 
-                                className="form-control" 
+                            <select
+                                className="form-control"
                                 value={item.type}
-                                onChange={(e) => handleCategoryInput('type',e.target.value, index, 'expanded')}
+                                onChange={(e) => handleCategoryInput('type', e.target.value, index, 'expanded')}
                             >
-                                <option>Türü Seç</option>
-                                <option value="store">store</option>
-                                <option value="product">product</option>
-                                <option value="page">page</option>
-
+                                <option value="">Select Type</option>
+                                <option value="store">Store</option>
+                                <option value="product">Product</option>
+                                <option value="page">Page</option>
                             </select>
                         </Col>
                     </Row>
                 )
             }
-
-
-            <h6>İşaretlenen</h6>
-
+            <h6>Checked Categories</h6>
             {
-                checkedArray.length > 0 && checkedArray.map((item, index) =>
+                checkedArray.length > 0 &&
+                checkedArray.map((item, index) =>
                     <Row key={index}>
                         <Col>
                             <Input
                                 value={item.name}
-                                placeholder={'Category Name'}
+                                placeholder={`Category Name`}
                                 onChange={(e) => handleCategoryInput('name', e.target.value, index, 'checked')}
                             />
                         </Col>
@@ -89,32 +89,32 @@ const UpdateCategoriesModal = (props) => {
                                 className="form-control"
                                 value={item.parentId}
                                 onChange={(e) => handleCategoryInput('parentId', e.target.value, index, 'checked')}>
-                                <option>Kategori Seç</option>
+                                <option>select category</option>
                                 {
                                     categoryList.map(option =>
-                                        <option key={option.value} value={option.value}>{option.name}</option>)
+                                        <option key={option.value} value={option.value}>{option.name}</option>
+                                    )
                                 }
                             </select>
                         </Col>
                         <Col>
-                            <select 
-                                className="form-control" 
+                            <select
+                                className="form-control"
                                 value={item.type}
-                                onChange={(e) => handleCategoryInput('type',e.target.value, index, 'checked')}
+                                onChange={(e) => handleCategoryInput('type', e.target.value, index, 'checked')}
+                            
                             >
-                                <option>Türü Seç</option>
-                                <option value="store">store</option>
-                                <option value="product">product</option>
-                                <option value="page">page</option>
-
+                                <option value="">Select Type</option>
+                                <option value="store">Store</option>
+                                <option value="product">Product</option>
+                                <option value="page">Page</option>
                             </select>
                         </Col>
                     </Row>
                 )
             }
-
         </Modal>
-    )
+    );
 }
 
 export default UpdateCategoriesModal;

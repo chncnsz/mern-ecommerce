@@ -9,10 +9,12 @@
 .modal-footer{
     padding: 5px 15px;
 }
+
 .actionBtnContainer{
     display: flex;
     align-items: center;
 }
+
 .actionBtnContainer > button{
     border: 0;
     margin: 0 5px;

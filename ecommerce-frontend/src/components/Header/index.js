@@ -74,7 +74,6 @@ const Header = (props) => {
         menu={<a className="fullName">{auth.user.fullName}</a>}
         menus={[
           { label: "My Profile", href: "", icon: null },
-          { label: "SuperCoin Zone", href: "", icon: null },
           { label: "Flipkart Plus Zone", href: "", icon: null },
           {
             label: "Orders",
@@ -82,8 +81,6 @@ const Header = (props) => {
             icon: null,
           },
           { label: "Wishlist", href: "", icon: null },
-          { label: "My Chats", href: "", icon: null },
-          { label: "Coupons", href: "", icon: null },
           { label: "Rewards", href: "", icon: null },
           { label: "Notifications", href: "", icon: null },
           { label: "Gift Cards", href: "", icon: null },

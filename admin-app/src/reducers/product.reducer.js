@@ -1,12 +1,11 @@
-import axios from "../helpers/axios";
 import { productConstants } from "../actions/constants";
 
-const initState = {
+const initialState = {
     products: []
-}
+};
 
-export default (state = initState, action) => {
-    switch (action.type) {
+export default (state = initialState, action) => {
+    switch(action.type){
         case productConstants.GET_ALL_PRODUCTS_SUCCESS:
             state = {
                 ...state,

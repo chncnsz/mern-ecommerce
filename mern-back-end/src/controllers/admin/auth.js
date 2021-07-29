@@ -1,3 +1,8 @@
+const User = require("../../models/user");
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
+const shortid = require("shortid");
+
 exports.signup = (req, res) => {
     User.findOne({ email: req.body.email }).exec((error, user) => {
       if (user)
@@ -41,6 +46,7 @@ exports.signup = (req, res) => {
   };
   
   exports.signin = (req, res) => {
+
     User.findOne({ email: req.body.email }).exec(async (error, user) => {
       if (error) return res.status(400).json({ error });
       if (user) {
@@ -52,7 +58,7 @@ exports.signup = (req, res) => {
           const token = jwt.sign(
             { _id: user._id, role: user.role },
             process.env.JWT_SECRET,
-            { expiresIn: "1d" }
+            { expiresIn: "1h" }
           );
           const { _id, firstName, lastName, email, role, fullName } = user;
           res.cookie("token", token, { expiresIn: "1d" });
@@ -60,7 +66,8 @@ exports.signup = (req, res) => {
             token,
             user: { _id, firstName, lastName, email, role, fullName },
           });
-        } else {
+        }
+         else {
           return res.status(400).json({
             message: "Invalid Password",
           });

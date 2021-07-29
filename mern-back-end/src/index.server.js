@@ -46,6 +46,7 @@ app.use('/api', initialDataRoutes);
 app.use('/api', pageRoutes);
 app.use("/api", addressRoutes);
 app.use("/api", orderRoutes);
+app.use("/api", adminOrderRoute);
 
 
 app.listen(process.env.PORT, () => {

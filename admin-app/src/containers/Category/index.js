@@ -1,31 +1,36 @@
 import React, { useEffect, useState } from 'react';
-import { Col, Container, Row } from 'react-bootstrap';
 import Layout from '../../components/Layout';
+import { Container, Row, Col } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-    addCategory,
     getAllCategory,
+    addCategory,
     updateCategories,
     deleteCategories as deleteCategoriesAction
 } from '../../actions';
-import Input from '../../components/UI/Input';
 import Modal from '../../components/UI/Modal';
 import CheckboxTree from 'react-checkbox-tree';
-import 'react-checkbox-tree/lib/react-checkbox-tree.css';
 import {
     IoIosCheckboxOutline,
     IoIosCheckbox,
     IoIosArrowForward,
     IoIosArrowDown,
-    IoIosCloudUpload,
     IoIosAdd,
-    IoIosTrash
-} from "react-icons/io";
+    IoIosTrash,
+    IoIosCloudUpload
+} from 'react-icons/io'
+
+import 'react-checkbox-tree/lib/react-checkbox-tree.css';
 import UpdateCategoriesModal from './components/UpdateCategoriesModal';
 import AddCategoryModal from './components/AddCategoryModal';
 import './style.css';
 
-const Category = () => {
+/**
+* @author
+* @function Category
+**/
+
+const Category = (props) => {
 
     const category = useSelector(state => state.category);
     const [categoryName, setCategoryName] = useState('');
@@ -41,17 +46,20 @@ const Category = () => {
     const dispatch = useDispatch();
 
     useEffect(() => {
+
         if (!category.loading) {
             setShow(false);
         }
+
     }, [category.loading]);
+
 
     const handleClose = () => {
 
         const form = new FormData();
 
         if (categoryName === "") {
-            alert('Category name is required')
+            alert('Category name is required');
             setShow(false);
             return;
         }
@@ -62,43 +70,38 @@ const Category = () => {
         dispatch(addCategory(form));
         setCategoryName('');
         setParentCategoryId('');
-
         setShow(false);
     }
     const handleShow = () => setShow(true);
 
-    const rendercategories = (categories) => {
-        let mycategories = [];
+    const renderCategories = (categories) => {
+        let myCategories = [];
         for (let category of categories) {
-            mycategories.push(
+            myCategories.push(
                 {
                     label: category.name,
                     value: category._id,
-                    children: category.children.length > 0 && rendercategories(category.children)
+                    children: category.children.length > 0 && renderCategories(category.children)
                 }
-                // <li key={category.name}>
-                //     {category.name}
-                //     {category.children.length > 0 ? (<ul>{rendercategories(category.children)}</ul>) : null}
-                // </li>
             );
         }
-        // console.log(categories);
-        return mycategories;
+        return myCategories;
     }
 
     const createCategoryList = (categories, options = []) => {
-        for (let category of categories) {
 
+        for (let category of categories) {
             options.push({
                 value: category._id,
-                parentId: category.parentId,
                 name: category.name,
+                parentId: category.parentId,
                 type: category.type
             });
             if (category.children.length > 0) {
                 createCategoryList(category.children, options)
             }
         }
+
         return options;
     }
 
@@ -113,30 +116,29 @@ const Category = () => {
 
     const updateCheckedAndExpandedCategories = () => {
         const categories = createCategoryList(category.categories);
-        // console.log(categories);
         const checkedArray = [];
-        checked.length > 0 && checked.forEach((categoryid, index) => {
-            const category = categories.find((category, _index) => categoryid == category.value);
-            category && checkedArray.push(category)
+        const expandedArray = [];
+        checked.length > 0 && checked.forEach((categoryId, index) => {
+            const category = categories.find((category, _index) => categoryId == category.value);
+            category && checkedArray.push(category);
         })
-        expanded.length > 0 && expanded.forEach((categoryid, index) => {
-            const category = categories.find((category, _index) => categoryid == category.value);
-            category && expandedArray.push(category)
+        expanded.length > 0 && expanded.forEach((categoryId, index) => {
+            const category = categories.find((category, _index) => categoryId == category.value);
+            category && expandedArray.push(category);
         })
         setCheckedArray(checkedArray);
         setExpandedArray(expandedArray);
-
-        console.log({ checked, expanded, checkedArray, expandedArray, categories });
     }
 
     const handleCategoryInput = (key, value, index, type) => {
+        console.log(value);
         if (type == "checked") {
             const updatedCheckedArray = checkedArray.map((item, _index) =>
-                index == _index ? { ...value, [key]: value } : item);
+                index == _index ? { ...item, [key]: value } : item);
             setCheckedArray(updatedCheckedArray);
         } else if (type == "expanded") {
             const updatedExpandedArray = expandedArray.map((item, _index) =>
-                index == _index ? { ...value, [key]: value } : item);
+                index == _index ? { ...item, [key]: value } : item);
             setExpandedArray(updatedExpandedArray);
         }
     }
@@ -149,7 +151,7 @@ const Category = () => {
             form.append('name', item.name);
             form.append('parentId', item.parentId ? item.parentId : "");
             form.append('type', item.type);
-        })
+        });
         checkedArray.forEach((item, index) => {
             form.append('_id', item.value);
             form.append('name', item.name);
@@ -157,6 +159,7 @@ const Category = () => {
             form.append('type', item.type);
         });
         dispatch(updateCategories(form));
+        
     }
 
     const deleteCategory = () => {
@@ -169,7 +172,6 @@ const Category = () => {
         const expandedIdsArray = expandedArray.map((item, index) => ({ _id: item.value }));
         const idsArray = expandedIdsArray.concat(checkedIdsArray);
 
-        // console.log(checkedIdsArray);
         if (checkedIdsArray.length > 0) {
             dispatch(deleteCategoriesAction(checkedIdsArray))
                 .then(result => {
@@ -181,10 +183,11 @@ const Category = () => {
         }
 
         setDeleteCategoryModal(false);
+
+
     }
 
     const renderDeleteCategoryModal = () => {
-        // console.log('DELETE',checkedArray);
         return (
             <Modal
                 modalTitle="Confirm"
@@ -205,40 +208,41 @@ const Category = () => {
                     }
                 ]}
             >
-                <h6>expanded</h6>
-                {expandedArray.map((item, index) => <span key={index}>{item.name}</span>)}
-                <h6>checked</h6>
-                {checkedArray.map((item, index) => <span key={index}>{item.name}</span>)}
+
+
+                <h5>Expanded</h5>
+                { expandedArray.map((item, index) => <span key={index}>{item.name}</span>)}
+                <h5>Checked</h5>
+                { checkedArray.map((item, index) => <span key={index}>{item.name}</span>)}
+
             </Modal>
-        )
+        );
     }
 
     const categoryList = createCategoryList(category.categories);
 
     return (
-
         <Layout sidebar>
-            <Container fluid>
+            <Container>
                 <Row>
                     <Col md={12}>
                         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                             <h3>Category</h3>
                             <div className="actionBtnContainer">
                                 <span>Actions: </span>
-                                <button onClick={handleShow}><IoIosAdd /><span>Add</span></button>
-                                <button onClick={deleteCategory}><IoIosTrash /><span>Sil</span></button>
-                                <button onClick={updateCategory}><IoIosCloudUpload /><span>Düzenle</span></button>
+                                <button onClick={handleShow}><IoIosAdd /> <span>Add</span></button>
+                                <button onClick={deleteCategory}><IoIosTrash /> <span>Delete</span></button>
+                                <button onClick={updateCategory}><IoIosCloudUpload /> <span>Edit</span></button>
                             </div>
+
                         </div>
+
                     </Col>
                 </Row>
                 <Row>
                     <Col md={12}>
-                        {/* <ul>
-                            {rendercategories(category.categories)}
-                        </ul> */}
                         <CheckboxTree
-                            nodes={rendercategories(category.categories)}
+                            nodes={renderCategories(category.categories)}
                             checked={checked}
                             expanded={expanded}
                             onCheck={checked => setChecked(checked)}
@@ -258,7 +262,7 @@ const Category = () => {
                 show={show}
                 handleClose={() => setShow(false)}
                 onSubmit={handleClose}
-                modalTitle={'Yeni Kategori Ekle'}
+                modalTitle={'Add New Category'}
                 categoryName={categoryName}
                 setCategoryName={setCategoryName}
                 parentCategoryId={parentCategoryId}
@@ -270,21 +274,18 @@ const Category = () => {
                 show={updateCategoryModal}
                 handleClose={() => setUpdateCategoryModal(false)}
                 onSubmit={updateCategoriesForm}
-                modalTitle={'Kategori Düzenle'}
+                modalTitle={'Update Categories'}
                 size="lg"
                 expandedArray={expandedArray}
                 checkedArray={checkedArray}
                 handleCategoryInput={handleCategoryInput}
                 categoryList={categoryList}
             />
-            {/* Add Category */}
             {/* {renderAddCategoryModal()} */}
-            {/* Edit Category */}
-            {/* {renderUpdateCategoriesModal()} */}
-            {/* Delete Category */}
             {renderDeleteCategoryModal()}
         </Layout>
     )
+
 }
 
 export default Category
